@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{CFE37651-971D-47E6-ACC7-2B21D6CE7CE2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{073D8D5F-8CC7-479B-B1C7-7170493552D6}"
+	ProjectSection(SolutionItems) = preProject
+		DeskBooker.Core.Tests\Processor\DeskBookingShould.cs = DeskBooker.Core.Tests\Processor\DeskBookingShould.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DeskBooking", "DeskBooking", "{D6ED0ACC-990F-4AF8-BD21-BAC8BC93B099}"
+	ProjectSection(SolutionItems) = preProject
+		DeskBooker.Core.Tests\Processor\DeskBookingProcessor.cs = DeskBooker.Core.Tests\Processor\DeskBookingProcessor.cs
+		DeskBooker.Core.Tests\Processor\DeskBookingRequest.cs = DeskBooker.Core.Tests\Processor\DeskBookingRequest.cs
+		DeskBooker.Core.Tests\Processor\DeskBookingResult.cs = DeskBooker.Core.Tests\Processor\DeskBookingResult.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Exceptions", "Exceptions", "{FBD48B3F-BC4A-4FC0-97FC-9303A8272610}"
+	ProjectSection(SolutionItems) = preProject
+		DeskBooker.Core.Tests\Exceptions\InvalidEmailException.cs = DeskBooker.Core.Tests\Exceptions\InvalidEmailException.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{942A29E9-3148-4D46-BE97-3734F7E943E1}"
+	ProjectSection(SolutionItems) = preProject
+		DeskBooker.Core.Tests\Utils\Constants.cs = DeskBooker.Core.Tests\Utils\Constants.cs
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D6ED0ACC-990F-4AF8-BD21-BAC8BC93B099} = {CFE37651-971D-47E6-ACC7-2B21D6CE7CE2}
+		{FBD48B3F-BC4A-4FC0-97FC-9303A8272610} = {CFE37651-971D-47E6-ACC7-2B21D6CE7CE2}
+		{942A29E9-3148-4D46-BE97-3734F7E943E1} = {CFE37651-971D-47E6-ACC7-2B21D6CE7CE2}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BDABD845-65BF-454F-8834-E549611CEA7E}
+	EndGlobalSection
+EndGlobal
