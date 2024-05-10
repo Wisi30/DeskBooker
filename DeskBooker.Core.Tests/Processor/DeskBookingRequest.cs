@@ -1,16 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
+using DeskBooker.Core.Tests.Exceptions;
 
 namespace DeskBooker.Core.Tests.Processor
 {
     public class DeskBookingRequest
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public DateTime Date { get; set; }
+        private DeskBookingRequest(string firstName, string lastName, string email, DateTime date)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            Email = new Email(email);
+            Date = date;
+        }
+
+        public static DeskBookingRequest Create(string firstName, string lastName, string email, DateTime date)
+        {
+            return new DeskBookingRequest(firstName, lastName, email, date);
+        }
+
+        public string FirstName { get; }
+        public string LastName { get; }
+        public Email Email { get; }
+        public DateTime Date { get; }
+    }
+
+    public record Email
+    {
+        public string Value { get; }
+
+        public Email(string value)
+        {
+            if (!IsValidEmail(value))
+            {
+                throw new InvalidEmailException();
+            }
+
+            Value = value;
+        }
+
+        private static bool IsValidEmail(string value)
+        {
+            const string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+            var regex = new Regex(pattern);
+            return regex.IsMatch(value);
+        }
     }
 }

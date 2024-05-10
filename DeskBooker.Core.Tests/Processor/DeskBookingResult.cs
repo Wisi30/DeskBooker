@@ -10,7 +10,8 @@ namespace DeskBooker.Core.Tests.Processor
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Email { get; set; }
+        public Email Email { get; set; }
         public DateTime Date { get; set; }
     }
+
 }
