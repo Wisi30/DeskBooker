@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using DeskBookerApp.Exceptions;
 
-namespace DeskBookerApp.DeskBooking;
+namespace DeskBookerApp.Domain.DeskBooking;
 
 public record Email
 {
