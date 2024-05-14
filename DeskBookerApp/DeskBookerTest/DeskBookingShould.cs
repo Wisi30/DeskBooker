@@ -88,4 +88,18 @@ public class DeskBookingShould
 
         _deskBookingRepositoryMock.Verify(dbr => dbr.Save(It.IsAny<DeskBooking>()), Times.Never);
     }
+
+    [TestCase(DeskBookingResultCode.Success, true)]
+    [TestCase(DeskBookingResultCode.NoDeskAvailable, false)]
+    public void return_expected_result_code(DeskBookingResultCode expectedResultCode, bool isDeskAvailable)
+    {
+        if (!isDeskAvailable)
+        {
+            _availableDesks.Clear();
+        }
+
+        var result = _service.BookDesk(_request);
+
+        result.Code.Should().Be(expectedResultCode);
+    }
 }
