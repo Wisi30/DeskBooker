@@ -72,7 +72,10 @@ public class DeskBookingShould
         _deskBookingRepositoryMock.Verify(dbr => dbr.Save(It.IsAny<DeskBooking>()), Times.Once);
 
         savedDeskBooking.Should().NotBeNull();
-        savedDeskBooking.Should().BeEquivalentTo(_request);
+        savedDeskBooking.FirstName.Should().Be(_request.FirstName);
+        savedDeskBooking.LastName.Should().Be(_request.LastName);
+        savedDeskBooking.Email.Should().Be(_request.Email);
+        savedDeskBooking.Date.Should().Be(_request.Date);
         savedDeskBooking.DeskId.Should().Be(_availableDesks.First().Id);
     }
 
