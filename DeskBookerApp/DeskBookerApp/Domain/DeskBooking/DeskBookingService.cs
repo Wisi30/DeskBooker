@@ -11,6 +11,7 @@ namespace DeskBookerApp.Domain.DeskBooking
         {
             if (request == null) throw new ArgumentNullException(nameof(request));
 
+            var result = Create<DeskBookingResult>(request);
             var availableDesks = _deskRepository.GetAvailableDesks(request.Date);
 
             if (availableDesks.Any())
@@ -19,9 +20,15 @@ namespace DeskBookerApp.Domain.DeskBooking
                 var deskBooking = Create<DeskBooking>(request);
                 deskBooking.DeskId = availableDesk.Id;
                 _deskBookingRepository.Save(deskBooking);
-            }
 
-            return Create<DeskBookingResult>(request);
+                result.Code = DeskBookingResultCode.Success;
+            }
+            else
+            {
+                result.Code = DeskBookingResultCode.NoDeskAvailable;
+            }
+            
+            return result;
         }
 
         private static T Create<T>(DeskBookingRequest request) where T : DeskBooking, new()
