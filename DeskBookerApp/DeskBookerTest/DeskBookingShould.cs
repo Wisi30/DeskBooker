@@ -25,7 +25,7 @@ public class DeskBookingShould
         _request =
             DeskBookingRequest.Create("Luis", "Borges", "lborges@aidacanarias.com", new DateTime(2024, 5, 10));
 
-        _availableDesks = new List<Desk> { new Desk() };
+        _availableDesks = new List<Desk> { new Desk{ Id = 7 } };
 
         _deskBookingRepositoryMock = new Mock<IDeskBookingRepository>();
         _deskRepositoryMock = new Mock<IDeskRepository>();
@@ -73,6 +73,7 @@ public class DeskBookingShould
 
         savedDeskBooking.Should().NotBeNull();
         savedDeskBooking.Should().BeEquivalentTo(_request);
+        savedDeskBooking.DeskId.Should().Be(_availableDesks.First().Id);
     }
 
     [Test]

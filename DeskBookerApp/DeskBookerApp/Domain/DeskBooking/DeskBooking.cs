@@ -6,4 +6,5 @@ public class DeskBooking
     public string LastName { get; set; }
     public Email Email { get; set; }
     public DateTime Date { get; set; }
+    public int DeskId { get; set; }
 }
