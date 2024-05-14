@@ -1,6 +1,6 @@
 ﻿namespace DeskBookerApp.Domain.DeskBooking
 {
-    public class DeskBookingRequest
+    public class DeskBookingRequest : DeskBooking
     {
         private DeskBookingRequest(string firstName, string lastName, string email, DateTime date)
         {
@@ -14,10 +14,5 @@
         {
             return new DeskBookingRequest(firstName, lastName, email, date);
         }
-
-        public string FirstName { get; }
-        public string LastName { get; }
-        public Email Email { get; }
-        public DateTime Date { get; }
     }
 }
