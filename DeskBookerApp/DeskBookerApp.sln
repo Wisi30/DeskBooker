@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeskBookerTest", "DeskBookerTest\DeskBookerTest.csproj", "{D3EC582D-4F0A-426B-99C1-8CF46172CE8D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeskBookerTest", "DeskBookerTest\DeskBookerTest.csproj", "{D3EC582D-4F0A-426B-99C1-8CF46172CE8D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{44338E6F-14C1-4786-A5C0-646FEF831CC2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{46FFAF66-6487-4ABD-BED8-6B09F3C1417B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeskBookerApp", "DeskBookerApp\DeskBookerApp.csproj", "{AE6DEFBF-844B-4FF2-A4CB-D0164E0D3C5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeskBookerApp", "DeskBookerApp\DeskBookerApp.csproj", "{AE6DEFBF-844B-4FF2-A4CB-D0164E0D3C5F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeskBookerWeb", "DeskBookerWeb\DeskBookerWeb.csproj", "{628C9F6D-338D-4059-A9FE-F03FA775A847}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +27,10 @@ Global
 		{AE6DEFBF-844B-4FF2-A4CB-D0164E0D3C5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE6DEFBF-844B-4FF2-A4CB-D0164E0D3C5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE6DEFBF-844B-4FF2-A4CB-D0164E0D3C5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{628C9F6D-338D-4059-A9FE-F03FA775A847}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{628C9F6D-338D-4059-A9FE-F03FA775A847}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{628C9F6D-338D-4059-A9FE-F03FA775A847}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{628C9F6D-338D-4059-A9FE-F03FA775A847}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,6 +38,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{D3EC582D-4F0A-426B-99C1-8CF46172CE8D} = {46FFAF66-6487-4ABD-BED8-6B09F3C1417B}
 		{AE6DEFBF-844B-4FF2-A4CB-D0164E0D3C5F} = {44338E6F-14C1-4786-A5C0-646FEF831CC2}
+		{628C9F6D-338D-4059-A9FE-F03FA775A847} = {44338E6F-14C1-4786-A5C0-646FEF831CC2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9DA4A091-0141-46BC-8F8B-B16D1C08C78D}
