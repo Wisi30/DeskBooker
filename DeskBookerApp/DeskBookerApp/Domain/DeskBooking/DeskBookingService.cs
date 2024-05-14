@@ -1,6 +1,8 @@
-﻿namespace DeskBookerApp.Domain.DeskBooking
+﻿using DeskBookerApp.Interfaces;
+
+namespace DeskBookerApp.Domain.DeskBooking
 {
-    public class DeskBookingService
+    public class DeskBookingService(IDeskBookingRepository deskBookingRepository)
     {
         public DeskBookingResult BookDesk(DeskBookingRequest request)
         {

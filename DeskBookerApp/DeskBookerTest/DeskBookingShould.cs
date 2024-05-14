@@ -1,30 +1,36 @@
 using DeskBookerApp.Domain.DeskBooking;
 using DeskBookerApp.Exceptions;
+using DeskBookerApp.Interfaces;
 using DeskBookerApp.Utils;
 using FluentAssertions;
+using Moq;
 
 namespace DeskBookerTest;
 
 public class DeskBookingShould
 {
+    private DeskBookingRequest _request;
+    private Mock<IDeskBookingRepository> _deskBookingRepositoryMock;
     private DeskBookingService _service;
 
     [SetUp]
     public void Setup()
     {
-        _service = new DeskBookingService();
+        _request =
+            DeskBookingRequest.Create("Luis", "Borges", "lborges@aidacanarias.com", new DateTime(2024, 5, 10));
+        
+        _deskBookingRepositoryMock = new Mock<IDeskBookingRepository>();
+
+        _service = new DeskBookingService(_deskBookingRepositoryMock.Object);
     }
 
     [Test]
     public void return_desk_booking_result_with_request_values()
     {
-        var request =
-            DeskBookingRequest.Create("Luis", "Borges", "lborges@aidacanarias.com", new DateTime(2024, 5, 10));
-
-        var result = _service.BookDesk(request);
+        var result = _service.BookDesk(_request);
 
         result.Should().NotBeNull();
-        result.Should().BeEquivalentTo(request);
+        result.Should().BeEquivalentTo(_request);
     }
 
     [Test]
@@ -41,5 +47,22 @@ public class DeskBookingShould
         var action = () => _service.BookDesk(null);
 
         action.Should().Throw<ArgumentNullException>();
+    }
+
+    [Test]
+    public void save_desk_booking()
+    {
+        DeskBooking savedDeskBooking = null;
+        _deskBookingRepositoryMock.Setup(db => db.Save(It.IsAny<DeskBooking>())).Callback<DeskBooking>(
+            deskBooking =>
+            {
+                savedDeskBooking = deskBooking;
+            });
+
+        _service.BookDesk(_request);
+        _deskBookingRepositoryMock.Verify(db => db.Save(It.IsAny<DeskBooking>()), Times.Once);
+
+        savedDeskBooking.Should().NotBeNull();
+        savedDeskBooking.Should().BeEquivalentTo(_request);
     }
 }
