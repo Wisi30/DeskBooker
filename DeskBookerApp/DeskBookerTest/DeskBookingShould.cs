@@ -7,9 +7,12 @@ namespace DeskBookerTest;
 
 public class DeskBookingShould
 {
+    private DeskBookingService _service;
+
     [SetUp]
     public void Setup()
     {
+        _service = new DeskBookingService();
     }
 
     [Test]
@@ -17,9 +20,8 @@ public class DeskBookingShould
     {
         var request =
             DeskBookingRequest.Create("Luis", "Borges", "lborges@aidacanarias.com", new DateTime(2024, 5, 10));
-        var processor = new DeskBookingService();
 
-        var result = processor.BookDesk(request);
+        var result = _service.BookDesk(request);
 
         result.Should().NotBeNull();
         result.Should().BeEquivalentTo(request);
@@ -36,9 +38,7 @@ public class DeskBookingShould
     [Test]
     public void throw_exception_if_request_is_null()
     {
-        var processor = new DeskBookingService();
-
-        var action = () => processor.BookDesk(null);
+        var action = () => _service.BookDesk(null);
 
         action.Should().Throw<ArgumentNullException>();
     }
