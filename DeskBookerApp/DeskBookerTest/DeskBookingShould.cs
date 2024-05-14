@@ -102,4 +102,26 @@ public class DeskBookingShould
 
         result.Code.Should().Be(expectedResultCode);
     }
+
+    [TestCase(5, true)]
+    [TestCase(null, false)]
+    public void return_expected_desk_booking_id(int? expectedDeskBookingId, bool isDeskAvailable)
+    {
+        if (!isDeskAvailable)
+        {
+            _availableDesks.Clear();
+        }
+        else
+        {
+            _deskBookingRepositoryMock.Setup(dbr => dbr.Save(It.IsAny<DeskBooking>())).Callback<DeskBooking>(
+                deskBooking =>
+                {
+                    deskBooking.Id = expectedDeskBookingId.GetValueOrDefault();
+                });
+        }
+
+        var result = _service.BookDesk(_request);
+
+        result.DeskBookingId.Should().Be(expectedDeskBookingId);
+    }
 }
