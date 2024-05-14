@@ -2,7 +2,7 @@
 
 namespace DeskBookerApp.Domain.DeskBooking
 {
-    public class DeskBookingService(IDeskBookingRepository deskBookingRepository)
+    public class DeskBookingService(IDeskBookingRepository deskBookingRepository, IDeskRepository deskRepository)
     {
         private readonly IDeskBookingRepository _deskBookingRepository = deskBookingRepository;
 
