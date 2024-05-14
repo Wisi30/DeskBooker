@@ -13,7 +13,7 @@ namespace DeskBookerApp.Domain.DeskBooking
 
             var availableDesks = _deskRepository.GetAvailableDesks(request.Date);
 
-            if (availableDesks.Count() > 0)
+            if (availableDesks.Any())
             {
                 _deskBookingRepository.Save(Create<DeskBooking>(request));
             }
