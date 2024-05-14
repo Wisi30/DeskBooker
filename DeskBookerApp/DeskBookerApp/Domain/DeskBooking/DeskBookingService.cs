@@ -23,6 +23,7 @@ namespace DeskBookerApp.Domain.DeskBooking
                 deskBooking.DeskId = availableDesk.Id;
                 _deskBookingRepository.Save(deskBooking);
 
+                result.DeskBookingId = deskBooking.Id;  
                 result.Code = DeskBookingResultCode.Success;
             }
             
