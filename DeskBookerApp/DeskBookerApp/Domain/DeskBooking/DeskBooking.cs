@@ -1,4 +1,6 @@
-﻿namespace DeskBookerApp.Domain.DeskBooking;
+﻿using DeskBookerApp.Domain.ValueObjects;
+
+namespace DeskBookerApp.Domain.DeskBooking;
 
 public class DeskBooking
 {

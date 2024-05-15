@@ -3,6 +3,7 @@ using DeskBookerApp.Domain.Desk;
 using DeskBookerApp.Domain.DeskBooking;
 using DeskBookerApp.Exceptions;
 using DeskBookerApp.Interfaces;
+using DeskBookerApp.Services;
 using DeskBookerApp.Utils;
 using FluentAssertions;
 using Moq;
@@ -72,10 +73,7 @@ public class DeskBookingShould
         _deskBookingRepositoryMock.Verify(dbr => dbr.Save(It.IsAny<DeskBooking>()), Times.Once);
 
         savedDeskBooking.Should().NotBeNull();
-        savedDeskBooking.FirstName.Should().Be(_request.FirstName);
-        savedDeskBooking.LastName.Should().Be(_request.LastName);
-        savedDeskBooking.Email.Should().Be(_request.Email);
-        savedDeskBooking.Date.Should().Be(_request.Date);
+        savedDeskBooking.Should().BeEquivalentTo(_request, options => options.Excluding(dbr => dbr.DeskId));
         savedDeskBooking.DeskId.Should().Be(_availableDesks.First().Id);
     }
 
@@ -89,19 +87,24 @@ public class DeskBookingShould
         _deskBookingRepositoryMock.Verify(dbr => dbr.Save(It.IsAny<DeskBooking>()), Times.Never);
     }
 
-    [TestCase(DeskBookingResultCode.Success, true)]
-    [TestCase(DeskBookingResultCode.NoDeskAvailable, false)]
-    public void return_expected_result_code(DeskBookingResultCode expectedResultCode, bool isDeskAvailable)
+    [Test]
+    public void return_no_desk_available_code_when_no_desk_available()
     {
-        if (!isDeskAvailable)
-        {
-            _availableDesks.Clear();
-        }
+        _availableDesks.Clear();
 
         var result = _service.BookDesk(_request);
 
-        result.Code.Should().Be(expectedResultCode);
+        result.Code.Should().Be(DeskBookingResultCode.NoDeskAvailable);
     }
+
+    [Test]
+    public void return_success_code_when_desk_is_available()
+    {
+        var result = _service.BookDesk(_request);
+
+        result.Code.Should().Be(DeskBookingResultCode.Success);
+    }
+    
 
     [TestCase(5, true)]
     [TestCase(null, false)]

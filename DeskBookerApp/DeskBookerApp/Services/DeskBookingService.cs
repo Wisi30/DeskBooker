@@ -1,6 +1,7 @@
-﻿using DeskBookerApp.Interfaces;
+﻿using DeskBookerApp.Domain.DeskBooking;
+using DeskBookerApp.Interfaces;
 
-namespace DeskBookerApp.Domain.DeskBooking
+namespace DeskBookerApp.Services
 {
     public class DeskBookingService(IDeskBookingRepository deskBookingRepository, IDeskRepository deskRepository)
         : IDeskBookingService
@@ -11,7 +12,7 @@ namespace DeskBookerApp.Domain.DeskBooking
 
             var result = Create<DeskBookingResult>(request);
             result.Code = DeskBookingResultCode.NoDeskAvailable;
-            
+
             var availableDesks = deskRepository.GetAvailableDesks(request.Date);
 
             if (availableDesks != null && !availableDesks.Any()) return result;
