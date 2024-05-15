@@ -5,12 +5,21 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DeskBookerWeb.Pages
 {
-    public class BookDeskModel(IDeskBookingService serviceMockObject) : PageModel
+    public class BookDeskModel : PageModel
     {
+        private IDeskBookingService _deskBookingService;
+
+        public BookDeskModel(IDeskBookingService deskBookingService)
+        {
+            _deskBookingService = deskBookingService;
+        }
+
         [BindProperty]
         public DeskBookingRequest DeskBookingRequest { get; set; }
+        
         public void OnPost()
         {
+            _deskBookingService.BookDesk(DeskBookingRequest);
         }
     }
 }

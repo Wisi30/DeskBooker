@@ -1,20 +1,22 @@
+using DeskBookerApp.Infrastructure;
 using DeskBookerApp.Interfaces;
 using DeskBookerApp.Services;
 using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-//builder.Services.AddTransient<IDeskRepository, DeskRepository>();
-//builder.Services.AddTransient<IDeskBookingRepository, DeskBookingRepository>();
-builder.Services.AddTransient<IDeskBookingService, DeskBookingService>();
 
 var connectionString = "DataSource=:memory";
 var connection = new SqliteConnection(connectionString);
 connection.Open();
+builder.Services.AddDbContext<DeskBookerContext>(options => options.UseSqlite(connection));
 
-//builder.Services.AddDbContext<DeskBookerContext>(options => options.UseSqlite);
+//builder.Services.AddTransient<IDeskRepository, DeskRepository>();
+//builder.Services.AddTransient<IDeskBookingRepository, DeskBookingRepository>();
+builder.Services.AddTransient<IDeskBookingService, DeskBookingService>();
 
 var app = builder.Build();
 

@@ -6,7 +6,6 @@ using DeskBookerApp.Interfaces;
 using DeskBookerApp.Services;
 using DeskBookerApp.Utils;
 using FluentAssertions;
-using Moq;
 using NSubstitute;
 
 namespace DeskBookerTest;
@@ -79,7 +78,7 @@ public class DeskBookingShould
 
         _service.BookDesk(_request);
 
-        _deskBookingRepository.Received(0).Save(It.IsAny<DeskBooking>());
+        _deskBookingRepository.Received(0).Save(Arg.Any<DeskBooking>());
     }
 
     [Test]
