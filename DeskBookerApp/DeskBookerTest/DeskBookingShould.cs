@@ -14,9 +14,8 @@ namespace DeskBookerTest;
 public class DeskBookingShould
 {
     private DeskBookingRequest _request;
-    private Mock<IDeskBookingRepository> _deskBookingRepositoryMock;
-    private Mock<IDeskRepository> _deskRepositoryMock;
-    private IDeskBookingRepository _repository;
+    private IDeskRepository _deskRepository;
+    private IDeskBookingRepository _deskBookingRepository;
     private DeskBookingService _service;
     private List<Desk> _availableDesks;
 
@@ -25,16 +24,13 @@ public class DeskBookingShould
     {
         _request =
             DeskBookingRequest.Create("Luis", "Borges", "lborges@aidacanarias.com", new DateTime(2024, 5, 10));
-
         _availableDesks = new List<Desk> { new Desk{ Id = 7 } };
 
-        _deskBookingRepositoryMock = new Mock<IDeskBookingRepository>();
-        _deskRepositoryMock = new Mock<IDeskRepository>();
-        _deskRepositoryMock.Setup(dr => dr.GetAvailableDesks(_request.Date)).Returns(_availableDesks);
+        _deskBookingRepository = Substitute.For<IDeskBookingRepository>();
+        _deskRepository = Substitute.For<IDeskRepository>();
+        _deskRepository.GetAvailableDesks(_request.Date).Returns(_availableDesks);
 
-        _repository = Substitute.For<IDeskBookingRepository>();
-
-        _service = new DeskBookingService(_deskBookingRepositoryMock.Object, _deskRepositoryMock.Object);
+        _service = new DeskBookingService(_deskBookingRepository, _deskRepository);
     }
 
     [Test]
@@ -66,11 +62,10 @@ public class DeskBookingShould
     public void save_desk_booking()
     {
         DeskBooking savedDeskBooking = null;
-        _deskBookingRepositoryMock.Setup(dbr => dbr.Save(It.IsAny<DeskBooking>())).Callback<DeskBooking>(
-            deskBooking => { savedDeskBooking = deskBooking; });
+        _deskBookingRepository.Save(Arg.Do<DeskBooking>(deskBooking => { savedDeskBooking = deskBooking; }));
 
         _service.BookDesk(_request);
-        _deskBookingRepositoryMock.Verify(dbr => dbr.Save(It.IsAny<DeskBooking>()), Times.Once);
+        _deskBookingRepository.Received(1).Save(Arg.Is<DeskBooking>(savedDeskBooking));
 
         savedDeskBooking.Should().NotBeNull();
         savedDeskBooking.Should().BeEquivalentTo(_request, options => options.Excluding(dbr => dbr.DeskId));
@@ -84,7 +79,7 @@ public class DeskBookingShould
 
         _service.BookDesk(_request);
 
-        _deskBookingRepositoryMock.Verify(dbr => dbr.Save(It.IsAny<DeskBooking>()), Times.Never);
+        _deskBookingRepository.Received(0).Save(It.IsAny<DeskBooking>());
     }
 
     [Test]
@@ -105,26 +100,23 @@ public class DeskBookingShould
         result.Code.Should().Be(DeskBookingResultCode.Success);
     }
     
-
-    [TestCase(5, true)]
-    [TestCase(null, false)]
-    public void return_expected_desk_booking_id(int? expectedDeskBookingId, bool isDeskAvailable)
+    [Test]
+    public void return_expected_desk_booking_id()
     {
-        if (!isDeskAvailable)
-        {
-            _availableDesks.Clear();
-        }
-        else
-        {
-            _deskBookingRepositoryMock.Setup(dbr => dbr.Save(It.IsAny<DeskBooking>())).Callback<DeskBooking>(
-                deskBooking =>
-                {
-                    deskBooking.Id = expectedDeskBookingId.GetValueOrDefault();
-                });
-        }
+        _deskBookingRepository.Save(Arg.Do<DeskBooking>(deskBooking => { deskBooking.Id = 5; }));
 
         var result = _service.BookDesk(_request);
 
-        result.DeskBookingId.Should().Be(expectedDeskBookingId);
+        result.DeskBookingId.Should().Be(5);
+    }
+
+    [Test]
+    public void return_null_desk_booking_when_no_desks_available()
+    {
+        _availableDesks.Clear();
+
+        var result = _service.BookDesk(_request);
+
+        result.DeskBookingId.Should().BeNull();
     }
 }
