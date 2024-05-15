@@ -3,10 +3,8 @@
 namespace DeskBookerApp.Domain.DeskBooking
 {
     public class DeskBookingService(IDeskBookingRepository deskBookingRepository, IDeskRepository deskRepository)
+        : IDeskBookingService
     {
-        private readonly IDeskBookingRepository _deskBookingRepository = deskBookingRepository;
-        private readonly IDeskRepository _deskRepository = deskRepository;
-
         public DeskBookingResult BookDesk(DeskBookingRequest request)
         {
             if (request == null) throw new ArgumentNullException(nameof(request));
@@ -14,19 +12,18 @@ namespace DeskBookerApp.Domain.DeskBooking
             var result = Create<DeskBookingResult>(request);
             result.Code = DeskBookingResultCode.NoDeskAvailable;
             
-            var availableDesks = _deskRepository.GetAvailableDesks(request.Date);
+            var availableDesks = deskRepository.GetAvailableDesks(request.Date);
 
-            if (availableDesks.Any())
-            {
-                var availableDesk = availableDesks.First();
-                var deskBooking = Create<DeskBooking>(request);
-                deskBooking.DeskId = availableDesk.Id;
-                _deskBookingRepository.Save(deskBooking);
+            if (availableDesks != null && !availableDesks.Any()) return result;
 
-                result.DeskBookingId = deskBooking.Id;  
-                result.Code = DeskBookingResultCode.Success;
-            }
-            
+            var availableDesk = availableDesks.First();
+            var deskBooking = Create<DeskBooking>(request);
+            deskBooking.DeskId = availableDesk.Id;
+            deskBookingRepository.Save(deskBooking);
+
+            result.DeskBookingId = deskBooking.Id;
+            result.Code = DeskBookingResultCode.Success;
+
             return result;
         }
 
