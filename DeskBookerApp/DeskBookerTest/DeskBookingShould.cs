@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using DeskBookerApp.Domain.Desk;
 using DeskBookerApp.Domain.DeskBooking;
 using DeskBookerApp.Exceptions;
@@ -13,9 +12,9 @@ namespace DeskBookerTest;
 public class DeskBookingShould
 {
     private DeskBookingRequest _request;
+    private DeskBookingService _service;
     private IDeskRepository _deskRepository;
     private IDeskBookingRepository _deskBookingRepository;
-    private DeskBookingService _service;
     private List<Desk> _availableDesks;
 
     [SetUp]
